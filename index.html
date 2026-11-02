@@ -56,23 +56,31 @@ th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee}th{backgroun
 .qg{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:6px;padding:12px;cursor:pointer}
 .qg b{display:block}
 
-/* ===== bigger UI ===== */
-header{padding:16px 22px;font-size:17px}header b{font-size:40px}
-nav{width:280px}.sem{font-size:18px;padding:18px 16px}.sem small{font-size:14px}
-.it{height:66px;font-size:19px;gap:14px;padding:0 16px}.it span{font-size:24px;width:30px}
-.it.sub{height:52px;font-size:17px;padding-left:34px}.grp{font-size:13px;padding:14px 16px 8px}.badge{font-size:14px;padding:2px 9px}
-.bar{font-size:18px;padding:14px 22px}.bar button{font-size:17px;padding:9px 18px}
-main{max-width:1100px;padding:22px}
-.h{font-size:17px;padding:18px}.tag{font-size:14px;padding:3px 12px}
-.b{padding:20px}.t{font-size:22px;margin-bottom:14px}.s{font-size:16px;margin-bottom:10px}
-.o{font-size:19px;padding:14px 10px;gap:14px}.o i{width:26px;height:26px}.c{font-size:17px;padding-left:40px}
-.end{font-size:24px;padding:22px}.res{font-size:30px}.res small{font-size:17px}
-.hello{font-size:32px}.stats{gap:14px}.st{padding:18px}.st b{font-size:38px}.st span{font-size:16px}
-.sec{font-size:22px;margin:26px 0 12px}.card{padding:18px 20px;font-size:18px}.mut{font-size:16px}
-.btn{font-size:18px;padding:11px 20px}.btn.sm{font-size:16px;padding:8px 14px}
-table{font-size:17px}th{font-size:14px}th,td{padding:12px 14px}.pill{font-size:14px;padding:3px 12px}
-.mi .qt{font-size:19px}.qgrid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.qg{padding:20px;font-size:19px}
-@media (max-width:700px){nav{width:150px}.it{font-size:15px;height:58px;gap:8px;padding:0 10px}.it.sub{padding-left:18px;font-size:14px;height:46px}.sem{font-size:14px}.t{font-size:19px}.o{font-size:17px}main{padding:14px}.st b{font-size:30px}}
+/* ===== sizing (medium) ===== */
+header{padding:12px 18px;font-size:14px;line-height:1.35}header b{font-size:32px}
+nav{width:232px;display:flex;flex-direction:column;transition:width .15s}
+nav .nv{flex:1}
+.sem{font-size:15px;padding:14px 14px;display:flex;gap:10px;align-items:center}.sem small{font-size:12px}.sem .ic{font-size:20px}
+.it{height:54px;font-size:16px;gap:12px;padding:0 14px}.it span{font-size:19px;width:24px}
+.it.sub{height:44px;font-size:14px;padding-left:28px}.grp{font-size:11px;padding:12px 14px 6px}.badge{font-size:12px;padding:1px 8px}
+.tgl{position:sticky;bottom:0;background:#44546a;border-top:1px solid #52627a;padding:10px 12px;text-align:right}
+.tgl b{display:inline-block;background:#26323f;color:#fff;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:16px}
+nav.col{width:62px}nav.col em,nav.col .sem .tx,nav.col .grp,nav.col .badge{display:none}
+nav.col .it{padding:0 0 0 12px}nav.col .it.sub{padding-left:12px;font-size:12px}nav.col .it.sub span{font-size:13px}
+nav.col .sem{justify-content:center;padding:14px 4px}nav.col .tgl{text-align:center;padding:10px 4px}
+em{font-style:normal}
+.bar{font-size:15px;padding:10px 18px}.bar button{font-size:15px;padding:7px 14px}
+main{max-width:900px;padding:18px}
+.h{font-size:15px;padding:14px}.tag{font-size:12px;padding:2px 11px}
+.b{padding:16px}.t{font-size:18px;margin-bottom:12px}.s{font-size:14px}
+.o{font-size:16.5px;padding:11px 8px;gap:12px}.o i{width:22px;height:22px}.c{font-size:15px;padding-left:34px}
+.end{font-size:20px;padding:18px}.res{font-size:26px}.res small{font-size:15px}
+.hello{font-size:26px}.st{padding:14px}.st b{font-size:30px}.st span{font-size:14px}
+.sec{font-size:19px;margin:22px 0 10px}.card{padding:14px 16px;font-size:16px}.mut{font-size:14px}
+.btn{font-size:16px;padding:9px 16px}.btn.sm{font-size:14px;padding:6px 12px}
+table{font-size:15px}th{font-size:12px}th,td{padding:10px 12px}.pill{font-size:12px;padding:2px 10px}
+.mi .qt{font-size:17px}.qgrid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.qg{padding:16px;font-size:16px}
+@media (max-width:700px){nav:not(.col){width:170px}.it{font-size:14px;height:50px;gap:8px;padding:0 10px}.it.sub{padding-left:20px;font-size:13px;height:42px}.t{font-size:17px}.o{font-size:15.5px}main{padding:12px}.st b{font-size:26px}}
 </style></head><body>
 <header><b>DULMS</b>Delta University Learning Management System</header>
 <div class="wrap"><nav id="tabs"></nav><div class="cont"><div class="bar"><span id="sc"></span><span id="bt"></span></div>
@@ -191,6 +199,8 @@ const $=id=>document.getElementById(id);
 let DB={att:[],mis:{},qa:{}};
 try{const r=JSON.parse(localStorage.getItem("dulms_v2")||"null");if(r)DB=Object.assign(DB,r)}catch(e){}
 function save(){try{localStorage.setItem("dulms_v2",JSON.stringify(DB))}catch(e){}}
+let COL=false;try{COL=localStorage.getItem("dulms_col")=="1"}catch(e){}
+function tgl(){COL=!COL;try{localStorage.setItem("dulms_col",COL?"1":"0")}catch(e){}draw()}
 let V={v:"home"},SS=null,TI=null;
 const pct=(s,n)=>n?Math.round(100*s/n):0;
 const fd=t=>{const d=new Date(t);return d.toLocaleDateString(undefined,{day:"numeric",month:"short"})+" "+d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"})};
@@ -223,17 +233,17 @@ function card(q,k,sel,mode){const d=sel!==undefined&&sel>=0,fb=mode=="live"?d:mo
  q.o.map((o,j)=>{const ok=fb&&j==q.a,bad=fb&&d&&j==sel&&sel!=q.a;
  return `<div class="o ${sel==j?"pick ":""}${ok?"ok":""}${bad?"bad":""}" ${mode=="done"?"":`onclick="pk(${k},${j})"`}><i></i><span>${L[j]}. ${o}</span></div>`+(ok?`<div class="c">✔ Correct Answer</div>`:"")}).join("")+`</div></div>`}
 
-function item(ic,label,on,fn,c,extra,cls){return `<div class="it ${cls||""} ${on?"on":""}" style="--c:${c}" onclick="${fn}"><span>${ic}</span>${label}${extra||""}</div>`}
+function item(ic,label,on,fn,c,extra,cls){return `<div class="it ${cls||""} ${on?"on":""}" style="--c:${c}" onclick="${fn}"><span>${ic}</span><em>${label}</em>${extra||""}</div>`}
 function sidebar(){const mis=misIds().length;
  const act=V.v=="mod"?V.m:(V.v=="sess"&&SS.kind=="quiz"?SS.m:null);
- let h=`<div class="sem">Fall - 2026-2027<small>Current Semester</small></div>`;
+ let h=`<div class="sem"><span class="ic">📅</span><div class="tx">Fall - 2026-2027<small style="display:block;font-weight:400;color:#e6f6e9">Current Semester</small></div></div>`;
  h+=item("🏠","Home",V.v=="home","go('home')","#f5c518");
  h+=item("📝","Exams",V.v=="exams"||(V.v=="sess"&&SS.kind=="exam"),"go('exams')","#8e24aa");
  h+=item("⚠","Mistakes",V.v=="mis"||(V.v=="sess"&&SS.kind=="prac"),"go('mis')","#e8553e",mis?`<b class="badge">${mis}</b>`:"");
  h+=`<div class="grp">Modules</div>`;
  MODS.forEach((m,i)=>{h+=item(m.ic,m.name,act==m.id&&!(V.v=="sess"),`go('mod',{m:'${m.id}'})`,["#2bc4c4","#a77ad1","#e8553e","#a0785a"][i]);
   if(act==m.id)m.quizzes.forEach((_,qi)=>{h+=item("?","Quiz "+(qi+1),V.v=="sess"&&SS.qi==qi,`openQuiz('${m.id}',${qi})`,QC[qi],"","sub")})});
- return h}
+  return h}
 
 function home(){
  const quizAtt=DB.att.filter(a=>a.k=="Quiz"),exAtt=DB.att.filter(a=>a.k=="Exam");
@@ -274,7 +284,7 @@ function exams(){
  return h}
 
 function draw(){
- $("tabs").innerHTML=sidebar();
+ $("tabs").className=COL?"col":"";$("tabs").innerHTML=`<div class="nv">${sidebar()}</div><div class="tgl"><b onclick="tgl()">${COL?"›":"‹"}</b></div>`;
  let bar="",main="",btn="";
  if(V.v=="home"){bar="Home";main=home()}
  else if(V.v=="exams"){bar="Exams";main=exams()}

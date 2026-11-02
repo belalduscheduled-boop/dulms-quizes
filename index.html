@@ -81,10 +81,15 @@ main{max-width:900px;padding:18px}
 table{font-size:15px}th{font-size:12px}th,td{padding:10px 12px}.pill{font-size:12px;padding:2px 10px}
 .mi .qt{font-size:17px}.qgrid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.qg{padding:16px;font-size:16px}
 @media (max-width:700px){nav:not(.col){width:170px}.it{font-size:14px;height:50px;gap:8px;padding:0 10px}.it.sub{padding-left:20px;font-size:13px;height:42px}.t{font-size:17px}.o{font-size:15.5px}main{padding:12px}.st b{font-size:26px}}
+.h{padding:8px 12px;text-align:left;line-height:1.4;display:flex;gap:8px;align-items:center}.h .st2{margin-left:auto;color:var(--mut);font-size:13px}.star{border:0;background:none;font-size:22px;cursor:pointer;padding:0}
+.pg{height:5px;background:var(--line)}.pg i{display:block;height:100%;background:var(--gr)}.nx{display:flex;gap:10px;margin:4px 0 20px}.nx .btn{flex:1}
+.dk{--bg:#14181d;--card:#1e242c;--tx:#e8ebef;--mut:#9aa6b2;--line:#39424d;color-scheme:dark}.dk th{background:#252c35}.dk td{border-color:#2d353f}.dk .bar button,.dk .btn{color:#222}.dk .btn.alt{color:#fff}
+#bn{display:none}textarea{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:6px}
+@media (max-width:700px){nav{display:none}#bn{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--nav);z-index:20;padding-bottom:env(safe-area-inset-bottom,0px)}#bn div{flex:1;text-align:center;color:#b4c0cf;padding:8px 0;font-size:11px}#bn div span{display:block;font-size:20px}#bn .on{color:#fff;background:#37465a}main{padding-bottom:90px}header{padding:8px 14px}header b{font-size:22px}header{font-size:12px}}
 </style></head><body>
 <header><b>DULMS</b>Delta University Learning Management System</header>
 <div class="wrap"><nav id="tabs"></nav><div class="cont"><div class="bar"><span id="sc"></span><span id="bt"></span></div>
-<main id="m"></main></div></div>
+<main id="m"></main></div></div><div id="bn"></div>
 <script>
 const A=[["The kidneys extend vertically between which vertebral levels?",["T10 to L1","L1 to L5","T8 to T12","T12 to L3"],3],
 ["Order of structures at the renal hilum (anterior → posterior):",["Ureter, artery, vein","Artery, vein, ureter","Vein, ureter, artery","Vein, artery, ureter"],3],
@@ -193,13 +198,14 @@ const MODS=[
  {id:"loco",name:"Locomotor 2",ic:"🦴",quizzes:[]}
 ];
 const ALLQ={};
-MODS.forEach(m=>{m.qs=[];m.quizzes=m.quizzes.map((qz,i)=>qz.map((x,k)=>{const o={id:m.id+"-"+i+"-"+k,mod:m.id,tag:x[0],t:x[1],o:x[2],a:x[3]};ALLQ[o.id]=o;m.qs.push(o);return o}))});
+MODS.forEach(m=>{m.qs=[];m.quizzes=m.quizzes.map((qz,i)=>qz.map((x,k)=>{const o={id:m.id+"-"+i+"-"+k,mod:m.id,tag:x[0],t:x[1],o:x[2],a:x[3],e:x[4]};ALLQ[o.id]=o;m.qs.push(o);return o}))});
 const M=id=>MODS.find(m=>m.id==id);
 const $=id=>document.getElementById(id);
 let DB={att:[],mis:{},qa:{}};
 try{const r=JSON.parse(localStorage.getItem("dulms_v2")||"null");if(r)DB=Object.assign(DB,r)}catch(e){}
 function save(){try{localStorage.setItem("dulms_v2",JSON.stringify(DB))}catch(e){}}
-let COL=false;try{COL=localStorage.getItem("dulms_col")=="1"}catch(e){}
+let DK=false;try{DK=localStorage.getItem("dulms_dk")=="1"}catch(e){}document.body.classList.toggle("dk",DK);
+let COL=innerWidth<700;try{const c=localStorage.getItem("dulms_col");if(c!==null)COL=c=="1"}catch(e){}
 function tgl(){COL=!COL;try{localStorage.setItem("dulms_col",COL?"1":"0")}catch(e){}draw()}
 let V={v:"home"},SS=null,TI=null;
 const pct=(s,n)=>n?Math.round(100*s/n):0;
@@ -208,8 +214,15 @@ const misIds=()=>Object.keys(DB.mis).filter(id=>ALLQ[id]);
 function qstat(m,i){const qs=M(m).quizzes[i],a=DB.qa[m+"-"+i]||{};let an=0,sc=0;qs.forEach((q,k)=>{if(a[k]!==undefined){an++;if(a[k]==q.a)sc++}});return{an,sc,n:qs.length}}
 function rec(q,j){if(j===q.a)delete DB.mis[q.id];else DB.mis[q.id]={t:Date.now(),p:j}}
 function stopT(){if(TI){clearInterval(TI);TI=null}}
+function one(s,mode){s.i=s.i||0;const n=s.qs.length,k=s.i;return `<div class="pg"><i style="width:${(k+1)/n*100}%"></i></div>`+card(s.qs[k],k,s.ans[k],mode)+`<div class="nx"><button class="btn alt" ${k?"":"disabled"} onclick="nv(-1)">‹ Prev</button><button class="btn" ${k<n-1?"":"disabled"} onclick="nv(1)">Next ›</button></div>`}
+function nv(d){SS.i=Math.max(0,Math.min(SS.qs.length-1,(SS.i||0)+d));draw();scrollTo(0,0)}
+function stz(id){DB.st=DB.st||{};if(DB.st[id])delete DB.st[id];else DB.st[id]=1;save();draw()}
+function startStar(){const qs=Object.keys(DB.st||{}).filter(id=>ALLQ[id]).map(id=>ALLQ[id]);if(!qs.length)return;stopT();SS={kind:"prac",title:"Starred",qs,ans:{}};V={v:"sess"};draw();scrollTo(0,0)}
+function thm(){DK=!DK;document.body.classList.toggle("dk",DK);try{localStorage.setItem("dulms_dk",DK?"1":"0")}catch(e){}}
+function exp(){const t=$("bk");t.value=JSON.stringify(DB);t.select();try{navigator.clipboard.writeText(t.value)}catch(e){}}
+function imp(){try{const r=JSON.parse($("bk").value);DB=Object.assign({att:[],mis:{},qa:{}},r);save();go("home")}catch(e){$("bk").value="";$("bk").placeholder="Invalid backup — paste it here first"}}
 function go(v,x){stopT();SS=null;V=Object.assign({v},x||{});draw();scrollTo(0,0)}
-function openQuiz(m,i){stopT();const key=m+"-"+i;if(!DB.qa[key])DB.qa[key]={};SS={kind:"quiz",m,qi:i,title:M(m).name+" · Quiz "+(i+1),qs:M(m).quizzes[i],ans:DB.qa[key]};V={v:"sess"};draw();scrollTo(0,0)}
+function openQuiz(m,i){if(innerWidth<700)COL=true;stopT();const key=m+"-"+i;if(!DB.qa[key])DB.qa[key]={};SS={kind:"quiz",m,qi:i,title:M(m).name+" · Quiz "+(i+1),qs:M(m).quizzes[i],ans:DB.qa[key],i:Math.max(0,M(m).quizzes[i].findIndex((_,k)=>DB.qa[key][k]===undefined))};V={v:"sess"};draw();scrollTo(0,0)}
 function startPractice(){stopT();const qs=misIds().map(id=>ALLQ[id]);if(!qs.length)return;SS={kind:"prac",title:"Practice mistakes",qs,ans:{}};V={v:"sess"};draw();scrollTo(0,0)}
 function startExam(m,n){stopT();const all=M(m).qs.slice();for(let i=all.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[all[i],all[j]]=[all[j],all[i]]}
  const qs=all.slice(0,Math.min(n,all.length));SS={kind:"exam",m,title:M(m).name+" Exam ("+qs.length+" Q)",qs,ans:{},end:Date.now()+qs.length*60000,done:false};V={v:"sess"};TI=setInterval(tick,1000);draw();scrollTo(0,0)}
@@ -229,9 +242,9 @@ function wipe(){if(!window.__w){window.__w=1;$("wp").textContent="Tap again to e
 function card(q,k,sel,mode){const d=sel!==undefined&&sel>=0,fb=mode=="live"?d:mode=="done";
  const mark=mode=="exam"?"–":(mode=="done"?(sel==q.a?1:0):(d?(sel==q.a?1:0):"–"));
  const st=mode=="done"?(d?"Answered":"Not answered"):(d?"Answered":"Not yet answered");
- return `<div class="q"><div class="h"><span class="tag">${q.tag}</span><br>Question: <b>${k+1}</b><br>Status: <b>${st}</b><br>Mark: <b>${mark} / 1</b></div><div class="b"><div class="t">${q.t}</div><div class="s">Select only one</div>`+
+ return `<div class="q"><div class="h"><span class="tag">${q.tag}</span><b>Q${k+1}</b><span class="st2">${fb&&d?(sel==q.a?"✔ Correct":"✘ Wrong"):st}</span><button class="star" onclick="stz('${q.id}')">${DB.st&&DB.st[q.id]?"⭐":"☆"}</button></div><div class="b"><div class="t">${q.t}</div><div class="s">Select only one</div>`+
  q.o.map((o,j)=>{const ok=fb&&j==q.a,bad=fb&&d&&j==sel&&sel!=q.a;
- return `<div class="o ${sel==j?"pick ":""}${ok?"ok":""}${bad?"bad":""}" ${mode=="done"?"":`onclick="pk(${k},${j})"`}><i></i><span>${L[j]}. ${o}</span></div>`+(ok?`<div class="c">✔ Correct Answer</div>`:"")}).join("")+`</div></div>`}
+ return `<div class="o ${sel==j?"pick ":""}${ok?"ok":""}${bad?"bad":""}" ${mode=="done"?"":`onclick="pk(${k},${j})"`}><i></i><span>${L[j]}. ${o}</span></div>`+(ok?`<div class="c">✔ Correct Answer</div>`:"")}).join("")+(fb&&q.e?`<div class="mut" style="padding:6px 4px">💡 ${q.e}</div>`:"")+`</div></div>`}
 
 function item(ic,label,on,fn,c,extra,cls){return `<div class="it ${cls||""} ${on?"on":""}" style="--c:${c}" onclick="${fn}"><span>${ic}</span><em>${label}</em>${extra||""}</div>`}
 function sidebar(){const mis=misIds().length;
@@ -263,6 +276,11 @@ function home(){
  h+=DB.att.length?`<table><tr><th>Date</th><th>Type</th><th>Name</th><th>Score</th></tr>`+DB.att.slice(-8).reverse().map(a=>`<tr><td>${fd(a.d)}</td><td><span class="pill ${a.k=="Exam"?"ex":""}">${a.k}</span></td><td>${a.n}</td><td><b>${a.s}/${a.t}</b> (${pct(a.s,a.t)}%)</td></tr>`).join("")+`</table>`:`<div class="card empty">No scores yet — finish a quiz or take an exam.</div>`;
  h+=`<div class="sec row"><span>Questions you got wrong</span>${mis.length?`<button class="btn sm" onclick="go('mis')">View all / Practice</button>`:""}</div>`;
  h+=mis.length?mis.slice(-5).reverse().map(id=>miCard(ALLQ[id])).join("")+(mis.length>5?`<div class="mut" style="text-align:center">+ ${mis.length-5} more</div>`:""):`<div class="card empty">Nothing here 🎉 — wrong answers will show up here.</div>`;
+ const T={};Object.keys(DB.qa).forEach(key=>{const a=DB.qa[key];Object.keys(a).forEach(k=>{const q=ALLQ[key+"-"+k];if(!q)return;const t=T[q.tag]=T[q.tag]||[0,0];t[1]++;if(a[k]==q.a)t[0]++})});
+ const tg=Object.entries(T).sort((x,y)=>x[1][0]/x[1][1]-y[1][0]/y[1][1]);
+ if(tg.length)h+=`<div class="sec">Topics (weakest first)</div>`+tg.map(([n,[c,t]])=>`<div class="card row"><span>${n}</span><span><span class="pill ${pct(c,t)<60?"r":"g"}">${pct(c,t)}%</span> <span class="mut">${c}/${t}</span></span></div>`).join("");
+ const ns=Object.keys(DB.st||{}).filter(id=>ALLQ[id]).length;
+ h+=`<div class="sec">Tools</div><div class="card"><div class="row" style="justify-content:flex-start"><button class="btn sm" ${ns?"":"disabled"} onclick="startStar()">⭐ Starred (${ns})</button><button class="btn alt sm" onclick="exp()">Export backup</button><button class="btn alt sm" onclick="imp()">Import backup</button></div><textarea id="bk" rows="3" style="width:100%;margin-top:8px" placeholder="Export fills this box (copy it). To restore: paste here, then Import."></textarea></div>`;
  h+=`<div style="text-align:center;margin-top:24px"><button class="btn alt sm" id="wp" onclick="wipe()">Reset all progress</button></div>`;
  return h}
 function miCard(q){const p=DB.mis[q.id].p;return `<div class="card mi"><span class="tag">${M(q.mod).name} · ${q.tag}</span><div class="qt">${q.t}</div><div class="yo">Your answer: ${p>=0?q.o[p]:"— (not answered)"}</div><div class="co">✔ Correct: ${q.o[q.a]}</div></div>`}
@@ -291,12 +309,13 @@ function draw(){
  else if(V.v=="mis"){bar="Mistakes";main=mis()}
  else if(V.v=="mod"){bar=M(V.m).name;main=modPage(V.m)}
  else if(V.v=="sess"){const s=SS;let an=0,sc=0;s.qs.forEach((q,k)=>{if(s.ans[k]!==undefined&&s.ans[k]>=0){an++;if(s.ans[k]==q.a)sc++}});const n=s.qs.length;
-  if(s.kind=="exam"&&!s.done){const r=Math.max(0,s.end-Date.now());bar=`${s.title} · ${an}/${n} answered · ⏱ <span id="tm">${Math.floor(r/60000)}:${String(Math.floor(r%60000/1000)).padStart(2,"0")}</span>`;btn=`<button onclick="submitExam()">Submit</button>`;
-   main=s.qs.map((q,k)=>card(q,k,s.ans[k],"exam")).join("")+`<div class="end"><button class="btn" onclick="submitExam()">Submit exam</button></div>`}
+  if(s.kind=="exam"&&!s.done){const r=Math.max(0,s.end-Date.now());bar=`Q${(s.i||0)+1}/${n} · ${an} answered · ⏱ <span id="tm">${Math.floor(r/60000)}:${String(Math.floor(r%60000/1000)).padStart(2,"0")}</span>`;btn=`<button onclick="submitExam()">Submit</button>`;
+   main=one(s,"exam")+`<div class="end"><button class="btn" onclick="submitExam()">Submit exam</button></div>`}
   else if(s.kind=="exam"){bar=`${s.title} · Finished`;
    main=`<div class="q res">Score: ${s.sc} / ${n} (${pct(s.sc,n)}%)<small>Wrong answers were added to Mistakes</small></div>`+s.qs.map((q,k)=>card(q,k,s.ans[k],"done")).join("")}
-  else{bar=`${s.title} · Answered ${an}/${n} · Score ${sc}`;btn=`<button onclick="rs()">Reset</button>`;
-   main=s.qs.map((q,k)=>card(q,k,s.ans[k],"live")).join("")+(an==n?`<div class="end">Final score: ${sc} / ${n}</div>`:"")}}
+  else{bar=`Q${(s.i||0)+1}/${n} · ✔ ${sc} · ${an} answered`;btn=`<button onclick="rs()">Reset</button>`;
+   main=one(s,"live")+(an==n?`<div class="end">Final score: ${sc} / ${n}</div>`:"")}}
+ $("bn").innerHTML=[["🏠","Home","home"],["📝","Exams","exams"],["⚠","Mistakes","mis"]].map(([i,l,v])=>`<div class="${V.v==v?"on":""}" onclick="go('${v}')"><span>${i}</span>${l}</div>`).join("")+`<div onclick="thm()"><span>🌓</span>Theme</div>`;
  $("sc").innerHTML=bar;$("bt").innerHTML=btn;$("m").innerHTML=main}
 draw();
 </script></body></html>

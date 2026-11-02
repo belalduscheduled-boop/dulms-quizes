@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DULMS Quizzes</title>
+<style>
+:root{color-scheme:light;--bg:#f4f4f4;--card:#fff;--tx:#222;--mut:#666;--line:#ccc;--nav:#26323f;--or:#f0a830;--gr:#2e9e1f;--rd:#d33;--sel:#e8f0fe;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:Helvetica,Arial,sans-serif}
+header{background:var(--nav);text-align:left;padding:10px 14px;color:#b8c4d0;font-size:13px;border-bottom:1px solid #fff3}header b{display:block;color:var(--or);font-size:28px;line-height:1.1}
+.wrap{display:flex;align-items:flex-start}
+nav{width:210px;flex:none;background:#44546a;position:sticky;top:0;height:100vh;overflow:auto}
+.sem{background:#92cf9c;color:#fff;padding:14px 12px;font-weight:700;font-size:14px}.sem small{display:block;font-weight:400;color:#e6f6e9;margin-top:2px}
+.it{display:flex;align-items:center;gap:12px;padding:0 10px;height:50px;border-left:4px solid var(--c);border-bottom:1px solid #52627a;color:#b4c0cf;font-weight:700;font-size:15px;cursor:pointer}
+.it.on{background:#37465a;color:#fff}.it span{width:22px;text-align:center;font-size:16px}
+.cont{flex:1;min-width:0}
+@media (max-width:520px){nav{width:118px}.it{font-size:13px;gap:6px;padding:0 6px}.sem{font-size:12px;padding:12px 8px}}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--card);border-bottom:1px solid var(--line);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;z-index:5}
+.bar button{border:0;background:var(--or);padding:6px 12px;border-radius:6px;font-weight:700}
+main{max-width:700px;margin:0;padding:12px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:6px;margin-bottom:18px;overflow:hidden}
+.h{text-align:center;padding:14px;border-bottom:1px solid var(--line);line-height:1.9}
+.tag{display:inline-block;font-size:11px;background:var(--nav);color:#fff;border-radius:10px;padding:1px 9px;margin-bottom:4px}
+.b{padding:14px}.t{font-weight:700;font-size:16px;margin-bottom:10px;line-height:1.4}.s{color:var(--mut);margin-bottom:8px}
+.o{display:flex;gap:10px;align-items:flex-start;padding:9px 6px;border-radius:6px;cursor:pointer;line-height:1.35}
+.o i{flex:none;width:20px;height:20px;border:2px solid var(--line);border-radius:50%;margin-top:1px}
+.o.pick i{background:radial-gradient(var(--tx) 40%,transparent 45%)}
+.o.ok{color:var(--gr);font-weight:700}.o.bad{color:var(--rd)}
+.c{color:var(--gr);font-weight:700;padding:0 0 4px 30px}
+.end{text-align:center;font-size:18px;font-weight:700;padding:14px}
+
+.cont{min-width:0}main{max-width:760px}
+.grp{padding:10px 12px 6px;color:#9fb0c4;font-size:11px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid #52627a}
+.it.sub{height:38px;padding-left:26px;font-size:13px;font-weight:600}
+.it.dis{opacity:.55}
+.badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:10px;font-size:11px;padding:1px 7px}
+.hello{font-size:22px;font-weight:700;margin:4px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.st{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px}
+.st b{display:block;font-size:26px;color:var(--nav)}.st span{color:var(--mut);font-size:12px}
+.sec{font-weight:700;font-size:16px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-bottom:10px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.mut{color:var(--mut);font-size:13px}
+.btn{border:0;background:var(--or);padding:8px 14px;border-radius:6px;font-weight:700;cursor:pointer;font-size:14px}
+.btn.alt{background:var(--nav);color:#fff}.btn.sm{padding:5px 10px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee}th{background:#fafafa;font-size:12px;color:var(--mut)}
+.pill{display:inline-block;border-radius:10px;padding:1px 9px;font-size:11px;color:#fff;background:var(--nav)}
+.pill.ex{background:#8e24aa}.pill.g{background:var(--gr)}.pill.r{background:var(--rd)}
+.mi .qt{font-weight:700;margin:6px 0}.mi .yo{color:var(--rd)}.mi .co{color:var(--gr);font-weight:700}
+.res{text-align:center;padding:18px;font-size:22px;font-weight:700}
+.res small{display:block;font-size:14px;color:var(--mut);font-weight:400;margin-top:4px}
+.empty{text-align:center;color:var(--mut);padding:26px 10px}
+#tm{font-weight:700;color:var(--rd)}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.qg{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:6px;padding:12px;cursor:pointer}
+.qg b{display:block}
+</style></head><body>
+<header><b>DULMS</b>Delta University Learning Management System</header>
+<div class="wrap"><nav id="tabs"></nav><div class="cont"><div class="bar"><span id="sc"></span><span id="bt"></span></div>
+<main id="m"></main></div></div>
+<script>
+const A=[["The kidneys extend vertically between which vertebral levels?",["T10 to L1","L1 to L5","T8 to T12","T12 to L3"],3],
+["Order of structures at the renal hilum (anterior → posterior):",["Ureter, artery, vein","Artery, vein, ureter","Vein, ureter, artery","Vein, artery, ureter"],3],
+["Pathway of urine inside the kidney:",["Papilla, major calyx, minor calyx, pelvis","Minor calyx, papilla, major calyx, pelvis","Papilla, minor calyx, major calyx, pelvis, ureter","Papilla, minor calyx, pelvis, major calyx"],2],
+["Average length of the adult ureter:",["10–15 cm","15–20 cm","35–40 cm","25–30 cm"],3],
+["Correct order of the male urethra parts (proximal → distal):",["Prostatic, membranous, penile","Membranous, prostatic, penile","Penile, membranous, prostatic","Prostatic, penile, membranous"],0],
+["Segmental arteries of the kidney are:",["Collateral arteries","End arteries","Anastomosing arteries","Plexus arteries"],1],
+["Why is the right renal artery longer than the left?",["Right kidney is higher","IVC lies in front of aorta","Aorta lies slightly left of the midline","Liver pushes the artery down"],2],
+["Which vein does NOT drain into the left renal vein?",["Left gonadal vein","Right gonadal vein","Left suprarenal vein","Left inferior phrenic vein"],1],
+["Sympathetic nerve supply of the kidney:",["T5–T9","T10–T12","L3–L5","S2–S4"],1],
+["Anterior relation of the RIGHT kidney but NOT the left:",["Stomach","2nd part of duodenum","Pancreas","Left colic flexure"],1],
+["Ribs related posteriorly to the kidneys:",["Right 11th & 12th, left 12th","Both 11th & 12th","Both 12th only","Right 12th only, left 11th & 12th"],3],
+["Uppermost anatomical constriction of the ureter:",["Pelvic brim","Crossing uterine artery","Intramural part","Pelvi-ureteric junction"],3],
+["Why does the intramural ureter run obliquely in the bladder wall?",["Increase length","Valve preventing urine reflux","Connect to prostate","Ease catheterization"],1],
+["The trigone of the urinary bladder lies at the:",["Superior surface","Infralateral surface","Apex","Base"],3],
+["Widest and most dilatable part of the male urethra:",["Membranous","Penile","Prostatic","Navicular fossa"],2],
+["Shortest, narrowest, least dilatable part of the male urethra:",["Prostatic","Membranous","Penile","Bulbar fossa"],1],
+["Shock-absorbing layer whose loss after a crash diet causes renal ptosis:",["Fibrous capsule","Renal fascia","Fatty (perirenal) capsule","Peritoneum"],2],
+["Most dangerous site of ureteric injury in hysterectomy:",["Crossing iliac vessels","Where crossed by uterine artery","Ovarian fossa","Base of bladder"],1]];
+const H=[["Path of filtrate from capillary lumen to capsular space:",["Podocyte body → BM → endothelium","Endothelium → slit diaphragm → BM","Slit diaphragm → BM → endothelium","Fenestrated endothelium → BM → slit diaphragm"],3],
+["Primary & secondary podocyte processes contain:",["RER and Golgi","Mitochondria and lysosomes","Intermediate filaments only","Microtubules & microfilaments"],3],
+["The only continuous layer of the blood-renal barrier:",["Podocyte cell body","Thick basement membrane","Filtration slits","Fenestrated endothelium"],1],
+["Basement membrane layers from inside to outside:",["Rara interna → densa → rara externa","Densa → rara interna → rara externa","Rara interna → rara externa → densa","Rara externa → densa → rara interna"],0],
+["Glomerular capillaries have:",["Fenestrated endothelium on thin BM","Continuous endothelium on thin BM","Fenestrated endothelium without BM","Fenestrated endothelium on thick BM"],3],
+["Granular appearance of the renal cortex is due to:",["Pyramids & calyces","Renal corpuscles & convoluted tubules","Loops of Henle & collecting tubules","Pelvis & major calyces"],1],
+["Parietal layer of Bowman’s capsule is lined by:",["Pseudostratified epithelium","Simple cuboidal","Podocytes","Simple squamous"],3],
+["Loss of slit diaphragms mainly impairs:",["Selective filtration of plasma proteins","Renin secretion","PCT glucose reabsorption","Urine concentration"],0],
+["The renal hilum contains all EXCEPT:",["Renal vessels","Lymphatics","Renal corpuscles","Pelvis of the ureter"],2]];
+const P=[["Kidney stones: diuretic that decreases urinary calcium:",["Spironolactone","Triamterene","Mannitol","Hydrochlorothiazide"],3],
+["Lithium-induced nephrogenic DI: appropriate diuretic:",["Spironolactone","Acetazolamide","Hydrochlorothiazide","Furosemide"],2],
+["Primary site of action of loop diuretics:",["DCT","Cortical collecting duct","Thick ascending limb of Henle","PCT"],2],
+["Diuretic causing ototoxicity with rapid IV use:",["Hydrochlorothiazide","Mannitol","Spironolactone","Furosemide"],3],
+["Primary hyperaldosteronism: best diuretic:",["Amiloride","Spironolactone","Mannitol","Furosemide"],1],
+["Cirrhotic ascites with protection from K⁺ loss:",["Acetazolamide","Furosemide","Hydrochlorothiazide","Spironolactone"],3],
+["Common adverse effect of K⁺-sparing diuretics:",["Hypernatremia","Hypoglycemia","Hyperkalemia","Hypocalcemia"],2],
+["Diuretics increase urine output by:",["↑Na⁺ reabsorption","Inhibiting Na⁺ reabsorption","↑Protein filtration","↓Renal blood flow"],1],
+["Increased Na⁺ delivery to the distal nephron causes:",["↑Calcium","Hypokalemia","↓Urine output","Hyperkalemia"],1]];
+const T=[["Typical of nephritic (not nephrotic) syndrome:",["Heavy proteinuria","Severe generalized edema","Hypoalbuminemia","Hematuria & hypertension"],3],
+["Proteinuria > 3.5 g/day is classic of:",["Nephritic syndrome","Nephrotic syndrome","Acute tubular necrosis","Urinary obstruction"],1],
+["Disease manifested by nephritic syndrome:",["Membranous","Minimal change","FSGS","Crescentic GN"],3],
+["Most common cause of nephrotic syndrome in adults:",["Minimal change disease","Membranous GN","FSGS","IgA nephropathy"],1],
+["EM of membranous GN:",["Normal podocytes","Subepithelial deposits with podocyte effacement","Subendothelial deposits only","Mesangial deposits only"],1],
+["Nephrotic disease with NO role for corticosteroids:",["Minimal change","Membranous GN","Childhood idiopathic nephrotic","Lipoid nephrosis"],1],
+["Most common pathology in childhood nephrotic syndrome:",["Minimal change","Membranous","Proliferative","Crescentic"],0],
+["EM finding of minimal change disease:",["Subepithelial humps","Linear IgG along GBM","Mesangial IgA","Effacement of foot processes"],3],
+["Post-streptococcal GN develops after:",["1–3 days","2–4 weeks","6 months","Immediately"],1],
+["Light microscopy of post-streptococcal GN:",["FSGS","BM thickening without proliferation","Prominent crescents","Diffuse uniform hypercellularity"],3],
+["EM of post-streptococcal GN:",["Wire-loop lesions","Linear IgG along GBM","Subepithelial “humps”","Complete foot process effacement"],2],
+["RPGN is defined histologically by:",["Kimmelstiel-Wilson nodules","Subepithelial humps","Crescents in Bowman’s space","Wire-loop lesions"],2],
+["Immunofluorescence of Goodpasture syndrome:",["Granular IgG & C3","Mesangial IgA","Linear IgG along GBM","Patchy IgM"],2],
+["Predominant mesangial IgA deposition:",["Minimal change","Membranous","IgA nephropathy (Berger)","Goodpasture"],2],
+["Gross kidneys in chronic GN:",["Enlarged, pale, smooth","Symmetrically small, granular surface","Asymmetric with large cysts","Normal-sized, congested"],1],
+["4-year-old with puffy eyes & generalized swelling:",["Hypertension & oliguria","Heavy proteinuria & hypoalbuminemia","Hematuria & uremia","RBC casts"],1],
+["25-year-old: hypertension, oliguria, cola urine, RBC casts:",["Nephrotic syndrome","Nephritic syndrome","Asymptomatic proteinuria","Chronic renal failure"],1],
+["Subepithelial immune complex deposition typically causes:",["Hematuria & ↓GFR","Nephrotic-range proteinuria, non-inflammatory","Microscopic hematuria only","Intravascular thrombosis"],1]];
+const F=[["Which capillary bed has high pressure favoring filtration?",["Peritubular","Glomerular","Vasa recta","Cortical veins"],1],
+["Structural and functional unit of the kidney:",["Nephron","Collecting duct","Glomerulus","Renal artery"],0],
+["Percentage of cortical nephrons:",["50%","85%","15%","25%"],1],
+["Juxtamedullary nephrons have:",["85% share, short loops","Glomeruli near medulla, long loops (urine concentration)","Glomeruli in outer cortex, only reabsorb","No efferent arterioles"],1],
+["DCT cells sensing NaCl load are the:",["Juxtaglomerular cells","Polar (lacis) cells","Macula densa cells","Podocytes"],2],
+["Kidney role in homeostasis includes regulation of:",["Glucose, temperature, gastric pH","Only arterial BP","Bile secretion & digestion","ECF volume, electrolytes & blood pH"],3],
+["Erythropoietin is released from ___; vitamin D is activated in ___:",["Peritubular capillary endothelium; PCT","JG cells; DCT","Macula densa; collecting duct","Podocytes; loop of Henle"],0],
+["Kidney correction of low BP:",["JGA → renin → angiotensinogen → AngI → AngII → vasoconstriction + aldosterone","JGA → AngII → renin → vasodilation","Adrenal → renin → ↓Na⁺ reabsorption","JGA → EPO → vasodilation"],0],
+["Number of nephrons needed for survival:",["250,000","500,000","1 million","2 million"],1],
+["Main determinant of renal blood flow:",["Cardiac output","Renal artery diameter","Mean arterial BP","Hematocrit"],2],
+["Mechanisms of RBF autoregulation:",["Sympathetic stimulation","Tubuloglomerular feedback & myogenic response","Parasympathetic activation","Baroreceptor reflex"],1],
+["Autoregulation keeps RBF constant at ABP of:",["Intrinsic, 80–160 mmHg","Extrinsic, 80–160 mmHg","Extrinsic, 60–200 mmHg","Intrinsic, 60–200 mmHg"],0],
+["When ABP drops, autoregulation involves:",["Afferent vasodilation","Efferent vasoconstriction","↓Renin","Inhibition of macula densa"],0],
+["Hormone causing renal vasoconstriction and ↓RBF:",["Acetylcholine","Prostaglandins","Angiotensin II","ANP"],2],
+["Clearance used to measure renal plasma flow:",["Inulin","Creatinine","PAH","Urea"],2],
+["Unique feature of renal circulation:",["Single capillary bed","Two capillary beds in series, separated by efferent arterioles","Low pressure in both beds","No autoregulation"],1],
+["RPF (PAH) = 660 ml/min, Hct = 0.4. RBF =",["660","1100","1200","1500"],1],
+["Substance constricting the efferent arteriole (↑GFR, ↓RBF):",["Acetylcholine","Prostaglandin I₂","Angiotensin II","Low-dose dopamine"],2],
+["Inner medulla hypertonicity is maintained because:",["Vasa recta get 50% of RBF","Sluggish blood flow in vasa recta","NaCl moves from thin ascending limb","Na⁺ is secreted in PCT"],1],
+["Normal GFR in a healthy adult:",["60 ml/min","90 ml/min","125 ml/min","250 ml/min"],2],
+["Which factor increases GFR?",["Afferent constriction","Efferent constriction","↑Plasma protein","↑Bowman’s capsule pressure"],1],
+["Gold standard for measuring GFR:",["Urea","Creatinine","Inulin","PAH"],2],
+["Substance with renal clearance of zero:",["Urea","Inulin","Glucose","PAH"],2],
+["Clearance equal to renal plasma flow:",["Inulin","Urea","Glucose","PAH"],3],
+["WRONG about Starling forces:",["Glomerular hydrostatic = 60 mmHg","Bowman’s oncotic = 0","Bowman’s hydrostatic = 18 mmHg","Net filtration pressure = 50 mmHg"],3],
+["NOT part of the glomerular filtration barrier:",["Fenestrated endothelium","Macula densa","Basement membrane","Podocytes"],1],
+["Normal filtration fraction:",["0.05–0.10","0.12–0.15","0.16–0.20","0.25–0.30"],2],
+["Normal total GFR per day:",["125 L","150 L","180 L","650 L"],2],
+["Filtration stops when Bowman’s pressure reaches (Gp 60, Gπ 32):",["18 mmHg","28 mmHg","32 mmHg","60 mmHg"],1],
+["Lining of glomerular capillaries:",["Continuous on thick BM","Fenestrated on thin BM","Fenestrated on thick BM","Continuous on thin BM"],2],
+["Afferent vasodilation results in:",["↑Gp ↑RPF ↑GFR, FF unchanged","↑Gp ↓RPF ↑GFR, FF ↑","↓Gp ↓RPF ↓GFR","↓Gp ↑RPF ↓GFR"],0],
+["Afferent vasoconstriction results in:",["↑Gp ↑RPF ↑GFR","↓Gp ↓RPF ↓GFR, FF unchanged","↓Gp ↓RPF ↓GFR, FF ↑","↑Gp ↓RPF ↑GFR"],1],
+["Efferent vasoconstriction results in:",["↓Gp ↓RPF ↓GFR","↑Gp ↓RPF ↑GFR, FF ↑","↓Gp ↑RPF ↓GFR","↑Gp ↑RPF ↑GFR"],1],
+["A ureteric stone decreases GFR by:",["↑Bowman’s pressure","↓Gp","↓Gπ","↑KF"],0],
+["In severe dehydration GFR falls because:",["↑Gp","↑Plasma oncotic pressure","↓Bowman’s pressure","↑KF"],1],
+["Filtration fraction using clearances =",["C(PAH) / C(inulin)","C(inulin) / C(PAH)","RBF / GFR","Urine flow / RBF"],1]];
+const hc=[0,1,3,4,6,7,9],pc=[0,2,3,5,6,8,9],L="abcde";
+const Q=[0,1,2,3,4,5].map(i=>[].concat(
+A.slice(i*3,i*3+3).map(x=>["Anatomy"].concat(x)),
+H.slice(hc[i],hc[i+1]).map(x=>["Histology"].concat(x)),
+T.slice(i*3,i*3+3).map(x=>["Pathology"].concat(x)),
+P.slice(pc[i],pc[i+1]).map(x=>["Pharmacology"].concat(x)),
+F.slice(i*6,i*6+6).map(x=>["Physiology"].concat(x))));
+
+const QC=["#f5c518","#2bc4c4","#e8553e","#a77ad1","#8e24aa","#a0785a"];
+/* ===== MODULES: add the questions of the next modules in "quizzes" (array of quizzes, each = array of [Tag, question, options, correctIndex]) ===== */
+const MODS=[
+ {id:"renal",name:"Renal",ic:"🫘",quizzes:Q},
+ {id:"resp",name:"Respiratory",ic:"🫁",quizzes:[]},
+ {id:"cvs",name:"CVS",ic:"❤",quizzes:[]},
+ {id:"loco",name:"Locomotor 2",ic:"🦴",quizzes:[]}
+];
+const ALLQ={};
+MODS.forEach(m=>{m.qs=[];m.quizzes=m.quizzes.map((qz,i)=>qz.map((x,k)=>{const o={id:m.id+"-"+i+"-"+k,mod:m.id,tag:x[0],t:x[1],o:x[2],a:x[3]};ALLQ[o.id]=o;m.qs.push(o);return o}))});
+const M=id=>MODS.find(m=>m.id==id);
+const $=id=>document.getElementById(id);
+let DB={att:[],mis:{},qa:{}};
+try{const r=JSON.parse(localStorage.getItem("dulms_v2")||"null");if(r)DB=Object.assign(DB,r)}catch(e){}
+function save(){try{localStorage.setItem("dulms_v2",JSON.stringify(DB))}catch(e){}}
+let V={v:"home"},SS=null,TI=null;
+const pct=(s,n)=>n?Math.round(100*s/n):0;
+const fd=t=>{const d=new Date(t);return d.toLocaleDateString(undefined,{day:"numeric",month:"short"})+" "+d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"})};
+const misIds=()=>Object.keys(DB.mis).filter(id=>ALLQ[id]);
+function qstat(m,i){const qs=M(m).quizzes[i],a=DB.qa[m+"-"+i]||{};let an=0,sc=0;qs.forEach((q,k)=>{if(a[k]!==undefined){an++;if(a[k]==q.a)sc++}});return{an,sc,n:qs.length}}
+function rec(q,j){if(j===q.a)delete DB.mis[q.id];else DB.mis[q.id]={t:Date.now(),p:j}}
+function stopT(){if(TI){clearInterval(TI);TI=null}}
+function go(v,x){stopT();SS=null;V=Object.assign({v},x||{});draw();scrollTo(0,0)}
+function openQuiz(m,i){stopT();const key=m+"-"+i;if(!DB.qa[key])DB.qa[key]={};SS={kind:"quiz",m,qi:i,title:M(m).name+" · Quiz "+(i+1),qs:M(m).quizzes[i],ans:DB.qa[key]};V={v:"sess"};draw();scrollTo(0,0)}
+function startPractice(){stopT();const qs=misIds().map(id=>ALLQ[id]);if(!qs.length)return;SS={kind:"prac",title:"Practice mistakes",qs,ans:{}};V={v:"sess"};draw();scrollTo(0,0)}
+function startExam(m,n){stopT();const all=M(m).qs.slice();for(let i=all.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[all[i],all[j]]=[all[j],all[i]]}
+ const qs=all.slice(0,Math.min(n,all.length));SS={kind:"exam",m,title:M(m).name+" Exam ("+qs.length+" Q)",qs,ans:{},end:Date.now()+qs.length*60000,done:false};V={v:"sess"};TI=setInterval(tick,1000);draw();scrollTo(0,0)}
+function tick(){if(!SS||SS.kind!="exam"||SS.done){stopT();return}const r=SS.end-Date.now();if(r<=0){submitExam();return}const e=$("tm");if(e)e.textContent=Math.floor(r/60000)+":"+String(Math.floor(r%60000/1000)).padStart(2,"0")}
+function submitExam(){const s=SS;if(!s||s.kind!="exam"||s.done)return;stopT();s.done=true;let sc=0;
+ s.qs.forEach((q,k)=>{const a=s.ans[k];if(a===q.a)sc++;rec(q,a===undefined?-1:a)});
+ s.sc=sc;DB.att.push({k:"Exam",n:s.title,s:sc,t:s.qs.length,d:Date.now()});save();draw();scrollTo(0,0)}
+function pk(k,j){const s=SS;if(!s||s.done)return;const q=s.qs[k];
+ if(s.kind=="exam"){s.ans[k]=j;draw();return}
+ if(s.ans[k]!==undefined)return;s.ans[k]=j;rec(q,j);
+ if(s.kind=="quiz"&&Object.keys(s.ans).length==s.qs.length){let sc=0;s.qs.forEach((q,i)=>{if(s.ans[i]==q.a)sc++});DB.att.push({k:"Quiz",n:s.title,s:sc,t:s.qs.length,d:Date.now()})}
+ save();draw()}
+function rs(){if(!SS||SS.kind=="exam")return;if(SS.kind=="quiz"){DB.qa[SS.m+"-"+SS.qi]={};SS.ans=DB.qa[SS.m+"-"+SS.qi];save()}else SS.ans={};draw();scrollTo(0,0)}
+function wipe(){if(!window.__w){window.__w=1;$("wp").textContent="Tap again to erase everything";setTimeout(()=>{window.__w=0;draw()},3000);return}
+ window.__w=0;DB={att:[],mis:{},qa:{}};save();go("home")}
+
+function card(q,k,sel,mode){const d=sel!==undefined&&sel>=0,fb=mode=="live"?d:mode=="done";
+ const mark=mode=="exam"?"–":(mode=="done"?(sel==q.a?1:0):(d?(sel==q.a?1:0):"–"));
+ const st=mode=="done"?(d?"Answered":"Not answered"):(d?"Answered":"Not yet answered");
+ return `<div class="q"><div class="h"><span class="tag">${q.tag}</span><br>Question: <b>${k+1}</b><br>Status: <b>${st}</b><br>Mark: <b>${mark} / 1</b></div><div class="b"><div class="t">${q.t}</div><div class="s">Select only one</div>`+
+ q.o.map((o,j)=>{const ok=fb&&j==q.a,bad=fb&&d&&j==sel&&sel!=q.a;
+ return `<div class="o ${sel==j?"pick ":""}${ok?"ok":""}${bad?"bad":""}" ${mode=="done"?"":`onclick="pk(${k},${j})"`}><i></i><span>${L[j]}. ${o}</span></div>`+(ok?`<div class="c">✔ Correct Answer</div>`:"")}).join("")+`</div></div>`}
+
+function item(ic,label,on,fn,c,extra,cls){return `<div class="it ${cls||""} ${on?"on":""}" style="--c:${c}" onclick="${fn}"><span>${ic}</span>${label}${extra||""}</div>`}
+function sidebar(){const mis=misIds().length;
+ const act=V.v=="mod"?V.m:(V.v=="sess"&&SS.kind=="quiz"?SS.m:null);
+ let h=`<div class="sem">Fall - 2026-2027<small>Current Semester</small></div>`;
+ h+=item("🏠","Home",V.v=="home","go('home')","#f5c518");
+ h+=item("📝","Exams",V.v=="exams"||(V.v=="sess"&&SS.kind=="exam"),"go('exams')","#8e24aa");
+ h+=item("⚠","Mistakes",V.v=="mis"||(V.v=="sess"&&SS.kind=="prac"),"go('mis')","#e8553e",mis?`<b class="badge">${mis}</b>`:"");
+ h+=`<div class="grp">Modules</div>`;
+ MODS.forEach((m,i)=>{h+=item(m.ic,m.name,act==m.id&&!(V.v=="sess"),`go('mod',{m:'${m.id}'})`,["#2bc4c4","#a77ad1","#e8553e","#a0785a"][i]);
+  if(act==m.id)m.quizzes.forEach((_,qi)=>{h+=item("?","Quiz "+(qi+1),V.v=="sess"&&SS.qi==qi,`openQuiz('${m.id}',${qi})`,QC[qi],"","sub")})});
+ return h}
+
+function home(){
+ const quizAtt=DB.att.filter(a=>a.k=="Quiz"),exAtt=DB.att.filter(a=>a.k=="Exam");
+ const avg=quizAtt.length?Math.round(quizAtt.reduce((s,a)=>s+pct(a.s,a.t),0)/quizAtt.length)+"%":"–";
+ const best=exAtt.length?Math.max(...exAtt.map(a=>pct(a.s,a.t)))+"%":"–";
+ const mis=misIds();
+ let h=`<div class="hello">Welcome back 👋</div><div class="stats">
+ <div class="st"><b>${quizAtt.length}</b><span>Quizzes completed</span></div>
+ <div class="st"><b>${avg}</b><span>Average quiz score</span></div>
+ <div class="st"><b>${best}</b><span>Best exam score</span></div>
+ <div class="st"><b>${mis.length}</b><span>Mistakes to review</span></div></div>`;
+ h+=`<div class="sec">Modules</div>`+MODS.map(m=>{
+  if(!m.quizzes.length)return `<div class="card row"><div><b>${m.ic} ${m.name}</b><div class="mut">Coming soon</div></div><span class="pill">Soon</span></div>`;
+  let done=0,sc=0,n=0;m.quizzes.forEach((_,i)=>{const s=qstat(m.id,i);if(s.an==s.n)done++;sc+=s.sc;n+=s.an});
+  return `<div class="card row"><div><b>${m.ic} ${m.name}</b><div class="mut">${done}/${m.quizzes.length} quizzes done · ${n?pct(sc,n)+"% correct so far":"not started"}</div></div><button class="btn sm" onclick="go('mod',{m:'${m.id}'})">Open</button></div>`}).join("");
+ h+=`<div class="sec">Recent scores</div>`;
+ h+=DB.att.length?`<table><tr><th>Date</th><th>Type</th><th>Name</th><th>Score</th></tr>`+DB.att.slice(-8).reverse().map(a=>`<tr><td>${fd(a.d)}</td><td><span class="pill ${a.k=="Exam"?"ex":""}">${a.k}</span></td><td>${a.n}</td><td><b>${a.s}/${a.t}</b> (${pct(a.s,a.t)}%)</td></tr>`).join("")+`</table>`:`<div class="card empty">No scores yet — finish a quiz or take an exam.</div>`;
+ h+=`<div class="sec row"><span>Questions you got wrong</span>${mis.length?`<button class="btn sm" onclick="go('mis')">View all / Practice</button>`:""}</div>`;
+ h+=mis.length?mis.slice(-5).reverse().map(id=>miCard(ALLQ[id])).join("")+(mis.length>5?`<div class="mut" style="text-align:center">+ ${mis.length-5} more</div>`:""):`<div class="card empty">Nothing here 🎉 — wrong answers will show up here.</div>`;
+ h+=`<div style="text-align:center;margin-top:24px"><button class="btn alt sm" id="wp" onclick="wipe()">Reset all progress</button></div>`;
+ return h}
+function miCard(q){const p=DB.mis[q.id].p;return `<div class="card mi"><span class="tag">${M(q.mod).name} · ${q.tag}</span><div class="qt">${q.t}</div><div class="yo">Your answer: ${p>=0?q.o[p]:"— (not answered)"}</div><div class="co">✔ Correct: ${q.o[q.a]}</div></div>`}
+function mis(){const ids=misIds();
+ return `<div class="row" style="margin-bottom:12px"><div class="hello" style="margin:0">Mistakes (${ids.length})</div>${ids.length?`<button class="btn" onclick="startPractice()">Practice these ${ids.length}</button>`:""}</div>
+ <div class="mut" style="margin-bottom:12px">A question leaves this list when you answer it correctly (in a quiz or in practice).</div>`+
+ (ids.length?ids.slice().reverse().map(id=>miCard(ALLQ[id])).join(""):`<div class="card empty">No mistakes to review 🎉</div>`)}
+function modPage(m){const md=M(m);
+ if(!md.quizzes.length)return `<div class="hello">${md.ic} ${md.name}</div><div class="card empty">Coming soon — questions for this module will be added here.</div>`;
+ return `<div class="hello">${md.ic} ${md.name}</div><div class="qgrid">`+md.quizzes.map((_,i)=>{const s=qstat(m,i);
+  return `<div class="qg" style="--c:${QC[i]}" onclick="openQuiz('${m}',${i})"><b>Quiz ${i+1}</b><span class="mut">${s.an==s.n?`Done · ${s.sc}/${s.n}`:s.an?`${s.an}/${s.n} answered`:"Not started"}</span></div>`}).join("")+`</div>`}
+function exams(){
+ let h=`<div class="hello">📝 Exams</div><div class="mut" style="margin-bottom:12px">Random questions from the whole module, timed (1 min per question), no answers shown until you submit. Wrong answers are added to Mistakes.</div>`;
+ h+=MODS.map(m=>{const n=m.qs.length;if(!n)return `<div class="card row"><div><b>${m.ic} ${m.name}</b><div class="mut">Coming soon</div></div><span class="pill">Soon</span></div>`;
+  const opts=[15,30,60,n].filter((x,i,a)=>x<=n&&a.indexOf(x)==i);
+  return `<div class="card"><b>${m.ic} ${m.name}</b> <span class="mut">· ${n} questions available</span><div class="row" style="justify-content:flex-start;margin-top:10px">${opts.map(x=>`<button class="btn" onclick="startExam('${m.id}',${x})">${x==n?"Full exam · "+x:x+" Q"}</button>`).join("")}</div></div>`}).join("");
+ const ex=DB.att.filter(a=>a.k=="Exam");
+ h+=`<div class="sec">Exam history</div>`+(ex.length?`<table><tr><th>Date</th><th>Exam</th><th>Score</th></tr>`+ex.slice().reverse().map(a=>`<tr><td>${fd(a.d)}</td><td>${a.n}</td><td><b>${a.s}/${a.t}</b> (${pct(a.s,a.t)}%)</td></tr>`).join("")+`</table>`:`<div class="card empty">No exams taken yet.</div>`);
+ return h}
+
+function draw(){
+ $("tabs").innerHTML=sidebar();
+ let bar="",main="",btn="";
+ if(V.v=="home"){bar="Home";main=home()}
+ else if(V.v=="exams"){bar="Exams";main=exams()}
+ else if(V.v=="mis"){bar="Mistakes";main=mis()}
+ else if(V.v=="mod"){bar=M(V.m).name;main=modPage(V.m)}
+ else if(V.v=="sess"){const s=SS;let an=0,sc=0;s.qs.forEach((q,k)=>{if(s.ans[k]!==undefined&&s.ans[k]>=0){an++;if(s.ans[k]==q.a)sc++}});const n=s.qs.length;
+  if(s.kind=="exam"&&!s.done){const r=Math.max(0,s.end-Date.now());bar=`${s.title} · ${an}/${n} answered · ⏱ <span id="tm">${Math.floor(r/60000)}:${String(Math.floor(r%60000/1000)).padStart(2,"0")}</span>`;btn=`<button onclick="submitExam()">Submit</button>`;
+   main=s.qs.map((q,k)=>card(q,k,s.ans[k],"exam")).join("")+`<div class="end"><button class="btn" onclick="submitExam()">Submit exam</button></div>`}
+  else if(s.kind=="exam"){bar=`${s.title} · Finished`;
+   main=`<div class="q res">Score: ${s.sc} / ${n} (${pct(s.sc,n)}%)<small>Wrong answers were added to Mistakes</small></div>`+s.qs.map((q,k)=>card(q,k,s.ans[k],"done")).join("")}
+  else{bar=`${s.title} · Answered ${an}/${n} · Score ${sc}`;btn=`<button onclick="rs()">Reset</button>`;
+   main=s.qs.map((q,k)=>card(q,k,s.ans[k],"live")).join("")+(an==n?`<div class="end">Final score: ${sc} / ${n}</div>`:"")}}
+ $("sc").innerHTML=bar;$("bt").innerHTML=btn;$("m").innerHTML=main}
+draw();
+</script></body></html>
